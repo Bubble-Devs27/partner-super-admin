@@ -3,10 +3,6 @@ import jwt from "jsonwebtoken";
 const JWT_SECRET = process.env.JWT_SECRET as string;
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "7d";
 
-if (!JWT_SECRET) {
-  throw new Error("Please define the JWT_SECRET environment variable in .env.local");
-}
-
 export interface JWTPayload {
   userId: string;
   username: string;
@@ -16,12 +12,18 @@ export interface JWTPayload {
 }
 
 export function signToken(userId: string, username: string, role: "station-admin" | "super-admin"): string {
+  if (!JWT_SECRET) {
+    throw new Error("Please define the JWT_SECRET environment variable in .env.local");
+  }
   return jwt.sign({ userId, username, role }, JWT_SECRET, {
     expiresIn: JWT_EXPIRES_IN,
   } as jwt.SignOptions);
 }
 
 export function verifyToken(token: string): JWTPayload | null {
+  if (!JWT_SECRET) {
+    throw new Error("Please define the JWT_SECRET environment variable in .env.local");
+  }
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as JWTPayload;
     return decoded;
