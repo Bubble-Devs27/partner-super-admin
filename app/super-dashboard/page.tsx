@@ -160,7 +160,7 @@ export default function SuperDashboardPage() {
                 <Tooltip 
                   cursor={{ fill: "rgba(244,63,94,0.05)" }}
                   contentStyle={{ borderRadius: "8px", border: "none", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)" }}
-                  formatter={(value: number) => [`₹${value.toLocaleString("en-IN")}`, "Revenue"]}
+                  formatter={(value: any) => [`₹${Number(value || 0).toLocaleString("en-IN")}`, "Revenue"]}
                 />
                 <Bar dataKey="revenue" fill="#10b981" radius={[4, 4, 0, 0]} maxBarSize={150} />
               </BarChart>
